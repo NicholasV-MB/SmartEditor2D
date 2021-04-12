@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PROCESS Id="RDK:0001" Name="Smart_Editor2D" HomePage="RDTemplateClean.htm" Expanded="True" Bookmarked="True">
+	<PROCESSPROPERTY CrUser="ruled [SRV-PLMTEST]" CrDate="2021-03-23T08:56:29" ModUser="nicholas.vittor [LAPT-IT07]" ModDate="2021-04-12T15:34:07" LanguageVersion="2011.1.1.0" />
+	<GROUP Id="RDK:0002" Name="Declarations" SubType="Declarations" Expanded="True">
+		<GROUP Id="RDK:0003" Name="Types" SubType="TypeSet" IncludeDate="0" Expanded="True">
+			<TYPE Id="RDK:7486" Name="PointType" SubType="structure">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:7487" Name="x" Type="double" />
+				<FIELD Id="RDK:7571" Name="y" Type="double" />
+				<FIELD Id="RDK:7573" Name="z" Type="double" />
+			</TYPE>
+			<TYPE Id="RDK:7577" Name="KeyValueType" SubType="structure" HasArrayType="True">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:7580" Name="key" Type="integer" />
+				<FIELD Id="RDK:7582" Name="value" Type="double" />
+			</TYPE>
+			<TYPE Id="RDK:7479" Name="CampataUserDataType" Expanded="True" SubType="structure">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:7480" Name="Altezza" Type="integer" />
+				<FIELD Id="RDK:7482" Name="Livelli" Type="integer" />
+				<FIELD Id="RDK:7484" Name="AltezzeLivelli" Type="double[]" />
+				<FIELD Id="RDK:15916" Name="Lunghezza" Type="integer" />
+				<FIELD Id="RDK:15918" Name="Profondita" Type="integer" />
+				<FIELD Id="RDK:16613" Name="start_p" Type="PointType" />
+			</TYPE>
+			<TYPE Id="RDK:7499" Name="CampataType" Expanded="True" SubType="structure" HasArrayType="True">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:7500" Name="name" Type="string" />
+				<FIELD Id="RDK:7502" Name="userData" Type="CampataUserDataType" />
+			</TYPE>
+			<TYPE Id="RDK:7555" Name="TrenoUserDataType" Expanded="True" SubType="structure">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:7556" Name="id" Type="string" />
+				<FIELD Id="RDK:7557" Name="start_p" Type="PointType" />
+				<FIELD Id="RDK:7558" Name="Lunghezza" Type="integer" />
+				<FIELD Id="RDK:7560" Name="Profondita" Type="integer" />
+				<FIELD Id="RDK:7562" Name="Altezza" Type="integer" />
+				<FIELD Id="RDK:7563" Name="Campate" Type="integer" />
+				<FIELD Id="RDK:7564" Name="DoppiaSpalla" Type="boolean" />
+				<FIELD Id="RDK:7565" Name="ShowNames" Type="boolean" />
+				<FIELD Id="RDK:7567" Name="Livelli" Type="integer" />
+				<FIELD Id="RDK:7569" Name="Rotazione" Type="integer" />
+			</TYPE>
+			<TYPE Id="RDK:7489" Name="TrenoType" Expanded="True" SubType="structure" HasArrayType="True">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:7490" Name="name" Type="string" />
+				<FIELD Id="RDK:7492" Name="userData" Type="TrenoUserDataType" />
+				<FIELD Id="RDK:7494" Name="geometry" Type="KeyValueType[]" />
+				<FIELD Id="RDK:7496" Name="children" Type="CampataType[]" />
+			</TYPE>
+			<TYPE Id="RDK:2055" Name="SmartEditor2DType" Expanded="True" SubType="structure" HasArrayType="True">
+				<TYPE_VALUES />
+				<FIELD Id="RDK:2350" Name="NumeroTreni" Type="integer" />
+				<FIELD Id="RDK:5881" Name="LunghezzaTreni" Type="integer" />
+				<FIELD Id="RDK:5883" Name="ProfonditaTreni" Type="integer" />
+				<FIELD Id="RDK:5885" Name="HSpalle" Type="integer" />
+				<FIELD Id="RDK:5887" Name="NumLivCampata" Type="integer" />
+				<FIELD Id="RDK:5889" Name="CampatePerTreno" Type="integer" />
+				<FIELD Id="RDK:5891" Name="SpallaDoppia" Type="boolean" />
+				<FIELD Id="RDK:5893" Name="UserData" Type="string" DesignTimeRemark="JSON in uscita: lista treni con le singole annotazioni" />
+				<FIELD Id="RDK:6245" Name="HPiano" Type="integer" />
+				<FIELD Id="RDK:6247" Name="LPiano" Type="integer" />
+			</TYPE>
+		</GROUP>
+		<GROUP Id="RDK:0004" Name="Parameters" SubType="ParameterDefs" Expanded="True" />
+		<GROUP Id="RDK:0005" Name="Global Variables" SubType="VarSet" IncludeDate="0" Expanded="True">
+			<VAR Id="RDK:5934" Name="SmartEditor2D_Data" Type="SmartEditor2DType" Expanded="True" />
+			<VAR Id="RDK:6638" Name="data_to_print" Type="string" Expanded="True" />
+			<VAR Id="RDK:7503" Name="Treni" Type="TrenoType[]" Expanded="True" />
+		</GROUP>
+		<GROUP Id="RDK:0006" Name="Profiles" SubType="ProfileSet" Expanded="True">
+			<PROFILE Id="RDK:5933" Name="SmartEditor2D_Profile" TypeName="SmartEditor2DType" Expanded="True" />
+		</GROUP>
+		<GROUP Id="RDK:0007" Name="Functions" SubType="FunctionSet" IncludeDate="0" Expanded="True" />
+	</GROUP>
+	<GROUP Id="RDK:0008" Name="Main Group" SubType="Generic" Expanded="True">
+		<ACTION_CALL Id="RDK:7441" Name="RDEngineering_CopyFile" DesignTimeRemark="{Source File} --&gt; {Destination File}">
+			<PAR Name="RDLibraryName">
+				<EXP><![CDATA[$C$RDEngineering_MISC]]></EXP>
+			</PAR>
+			<PAR Name="FileName">
+				<EXP><![CDATA[$=$ProcPath() + "Templates\SmartEditor2D.htm"]]></EXP>
+			</PAR>
+			<PAR Name="NewFileName">
+				<EXP><![CDATA[$=$WebTemplatesPath() + "SmartEditor2D.htm"]]></EXP>
+			</PAR>
+			<PAR Name="AcceptWildcards" />
+			<PAR Name="Overwrite">
+				<EXP><![CDATA[$C$True]]></EXP>
+			</PAR>
+			<PAR Name="Options">
+				<EXP><![CDATA[$C$(NEWERFILESONLY)]]></EXP>
+			</PAR>
+		</ACTION_CALL>
+		<ACTION_CALL Id="RDK:7444" Name="RDEngineering_CopyFolder" DesignTimeRemark="{SourcePath} --&gt; {TargetPath}">
+			<PAR Name="RDLibraryName">
+				<EXP><![CDATA[$C$RDEngineering_MISC]]></EXP>
+			</PAR>
+			<PAR Name="SourcePath">
+				<EXP><![CDATA[$=$ProcPath() + "Templates\lib"]]></EXP>
+			</PAR>
+			<PAR Name="TargetPath">
+				<EXP><![CDATA[$=$WebTemplatesPath() + "lib"]]></EXP>
+			</PAR>
+			<PAR Name="Recursive" />
+		</ACTION_CALL>
+		<SET_STRUCT Id="RDK:6539" VarRef="SmartEditor2D_Data" ClearAll="True">
+			<PAR Name="NumeroTreni">
+				<EXP><![CDATA[$C$5]]></EXP>
+			</PAR>
+			<PAR Name="LunghezzaTreni">
+				<EXP><![CDATA[$C$135000]]></EXP>
+			</PAR>
+			<PAR Name="ProfonditaTreni">
+				<EXP><![CDATA[$C$2000]]></EXP>
+			</PAR>
+			<PAR Name="HSpalle">
+				<EXP><![CDATA[$C$5000]]></EXP>
+			</PAR>
+			<PAR Name="NumLivCampata">
+				<EXP><![CDATA[$C$7]]></EXP>
+			</PAR>
+			<PAR Name="CampatePerTreno">
+				<EXP><![CDATA[$C$20]]></EXP>
+			</PAR>
+			<PAR Name="SpallaDoppia">
+				<EXP><![CDATA[$C$False]]></EXP>
+			</PAR>
+			<PAR Name="UserData">
+				<EXP><![CDATA[$=$ReadTextFile("treni.json")]]></EXP>
+			</PAR>
+			<PAR Name="HPiano">
+				<EXP><![CDATA[$C$150000]]></EXP>
+			</PAR>
+			<PAR Name="LPiano">
+				<EXP><![CDATA[$C$150000]]></EXP>
+			</PAR>
+		</SET_STRUCT>
+		<SET_STRUCT Id="RDK:9818" VarRef="SmartEditor2D_Data" ClearAll="True" Suppressed="True">
+			<PAR Name="NumeroTreni">
+				<EXP><![CDATA[$C$0]]></EXP>
+			</PAR>
+			<PAR Name="LunghezzaTreni">
+				<EXP><![CDATA[$C$135000]]></EXP>
+			</PAR>
+			<PAR Name="ProfonditaTreni">
+				<EXP><![CDATA[$C$2000]]></EXP>
+			</PAR>
+			<PAR Name="HSpalle">
+				<EXP><![CDATA[$C$5000]]></EXP>
+			</PAR>
+			<PAR Name="NumLivCampata">
+				<EXP><![CDATA[$C$7]]></EXP>
+			</PAR>
+			<PAR Name="CampatePerTreno">
+				<EXP><![CDATA[$C$20]]></EXP>
+			</PAR>
+			<PAR Name="SpallaDoppia">
+				<EXP><![CDATA[$=$"true"]]></EXP>
+			</PAR>
+			<PAR Name="UserData" />
+			<PAR Name="HPiano">
+				<EXP><![CDATA[$C$150000]]></EXP>
+			</PAR>
+			<PAR Name="LPiano">
+				<EXP><![CDATA[$C$150000]]></EXP>
+			</PAR>
+		</SET_STRUCT>
+		<ACTION_CALL Id="RDK:12" Name="RDEngineering_RemoteWebForm" DesignTimeRemark="{template File}">
+			<PAR Name="RDLibraryName">
+				<EXP><![CDATA[$C$RDEngineering_UI]]></EXP>
+			</PAR>
+			<PAR Name="InputVar">
+				<EXP><![CDATA[$=$SmartEditor2D_Data]]></EXP>
+			</PAR>
+			<PAR Name="ProfileName">
+				<EXP><![CDATA[$C$SmartEditor2D_Profile]]></EXP>
+			</PAR>
+			<PAR Name="TemplateFile">
+				<EXP><![CDATA[$C$Templates/SmartEditor2D.htm]]></EXP>
+			</PAR>
+			<PAR Name="RunTimeRemark" />
+			<PAR Name="WebResourcePath" />
+			<PAR Name="ImgTop" />
+			<PAR Name="ImgBottom" />
+			<PAR Name="ImgLeft" />
+			<PAR Name="ImgRight" />
+			<PAR Name="CSSStyle" />
+			<PAR Name="RDActionTimeOut" />
+			<PAR Name="ButtonsMode">
+				<EXP><![CDATA[$C$16]]></EXP>
+			</PAR>
+			<PAR Name="ButtonList" />
+			<PAR Name="ButtonImgs" />
+			<PAR Name="ButtonAction" />
+			<PAR Name="ButtonOptions" />
+			<PAR Name="ButtonDefs" />
+			<PAR Name="ButtonPressed">
+				<EXP><![CDATA[$V$]]></EXP>
+			</PAR>
+			<PAR Name="TemplateConfig" />
+			<PAR Name="HeaderData" />
+			<PAR Name="InputTree">
+				<EXP><![CDATA[$=$]]></EXP>
+			</PAR>
+			<PAR Name="Options">
+				<EXP><![CDATA[$C$(TOPBUTTONS)]]></EXP>
+			</PAR>
+		</ACTION_CALL>
+		<SET Id="RDK:7074" VarRef="Treni">
+			<EXP><![CDATA[$=$FromJSON(SmartEditor2D_Data.UserData)]]></EXP>
+			<PAR Name="AdvancedOptions" />
+		</SET>
+		<ACTION_CALL Id="RDK:15921" Name="RDEngineering_WriteToTextFile" DesignTimeRemark="{WriteVar Text}">
+			<PAR Name="RDLibraryName">
+				<EXP><![CDATA[$C$RDEngineering_FILE_TEXT]]></EXP>
+			</PAR>
+			<PAR Name="FileName">
+				<EXP><![CDATA[$=$ProcPath() + "treni.json"]]></EXP>
+			</PAR>
+			<PAR Name="DataType">
+				<EXP><![CDATA[$C$0]]></EXP>
+			</PAR>
+			<PAR Name="StringText">
+				<EXP><![CDATA[$=$ToJSON(Treni)]]></EXP>
+			</PAR>
+			<PAR Name="StringVector" />
+			<PAR Name="StringTable" />
+			<PAR Name="NumberVector" />
+			<PAR Name="NumberTable" />
+			<PAR Name="FileFormat">
+				<EXP><![CDATA[$C$0]]></EXP>
+			</PAR>
+			<PAR Name="IniSection" />
+			<PAR Name="IniProperty" />
+			<PAR Name="Options" />
+		</ACTION_CALL>
+		<GROUP Id="RDK:9413" Name="Export data" SubType="Generic" Expanded="True" Suppressed="True">
+			<SET Id="RDK:8602" VarRef="SmartEditor2D_Data.UserData">
+				<EXP><![CDATA[$=$ToJSON(Treni)]]></EXP>
+				<PAR Name="AdvancedOptions" />
+			</SET>
+			<SET Id="RDK:7505" VarRef="data_to_print">
+				<EXP><![CDATA[$=$ToJSON(SmartEditor2D_Data)]]></EXP>
+				<PAR Name="AdvancedOptions" />
+			</SET>
+			<SET Id="RDK:8805" VarRef="data_to_print">
+				<EXP><![CDATA[$=$StrReplace(data_to_print, """[", "[")]]></EXP>
+				<PAR Name="AdvancedOptions" />
+			</SET>
+			<SET Id="RDK:9008" VarRef="data_to_print">
+				<EXP><![CDATA[$=$StrReplace(data_to_print, "]""", "]")]]></EXP>
+				<PAR Name="AdvancedOptions" />
+			</SET>
+			<SET Id="RDK:9010" VarRef="data_to_print">
+				<EXP><![CDATA[$=$StrReplace(data_to_print, "\", "")]]></EXP>
+				<PAR Name="AdvancedOptions" />
+			</SET>
+			<ACTION_CALL Id="RDK:8466" Name="RDEngineering_WriteToTextFile" DesignTimeRemark="{WriteVar Text}">
+				<PAR Name="RDLibraryName">
+					<EXP><![CDATA[$C$RDEngineering_FILE_TEXT]]></EXP>
+				</PAR>
+				<PAR Name="FileName">
+					<EXP><![CDATA[$=$ProcPath() + "data.json"]]></EXP>
+				</PAR>
+				<PAR Name="DataType">
+					<EXP><![CDATA[$C$0]]></EXP>
+				</PAR>
+				<PAR Name="StringText">
+					<EXP><![CDATA[$=$data_to_print]]></EXP>
+				</PAR>
+				<PAR Name="StringVector" />
+				<PAR Name="StringTable" />
+				<PAR Name="NumberVector" />
+				<PAR Name="NumberTable" />
+				<PAR Name="FileFormat">
+					<EXP><![CDATA[$C$0]]></EXP>
+				</PAR>
+				<PAR Name="IniSection" />
+				<PAR Name="IniProperty" />
+				<PAR Name="Options" />
+			</ACTION_CALL>
+		</GROUP>
+		<SNAPSHOT Id="RDK:7723" Suppressed="True">
+			<EXP><![CDATA[$V$]]></EXP>
+			<PAR Name="VarFilter" />
+			<PAR Name="FileName" />
+			<PAR Name="Profile" />
+			<PAR Name="SnapshotMode">
+				<EXP><![CDATA[$C$0]]></EXP>
+			</PAR>
+			<PAR Name="AdvancedOptions" />
+		</SNAPSHOT>
+		<ACTION_CALL Id="RDK:7075" Name="RDEngineering_AppendTextLine" Suppressed="True">
+			<PAR Name="RDLibraryName">
+				<EXP><![CDATA[$C$RDEngineering_FILE_TEXT]]></EXP>
+			</PAR>
+			<PAR Name="FileName">
+				<EXP><![CDATA[$C$Info.txt]]></EXP>
+			</PAR>
+			<PAR Name="TextLine">
+				<EXP><![CDATA[$=$"RISULTATO:
+"+data_to_print]]></EXP>
+			</PAR>
+			<PAR Name="Options" />
+		</ACTION_CALL>
+		<GROUP Id="RDK:6008" Name="FINE" SubType="Generic" Expanded="True" />
+	</GROUP>
+	<EXTERNAL_DATA>
+		<PROFILES_DATA>
+			<RELPROFILE Id="RDK:7063" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="NumeroTreni" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7064" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="LunghezzaTreni" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7065" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="ProfonditaTreni" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7066" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="HSpalle" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7068" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="NumLivCampata" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7069" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="CampatePerTreno" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7070" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="SpallaDoppia" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Yes_No" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7071" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="UserData" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED>
+					<EXP><![CDATA[$C$False]]></EXP>
+				</RP_SETFIELD_FORCED>
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7072" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="HPiano" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+			<RELPROFILE Id="RDK:7073" TypeName="SmartEditor2DType" Expanded="True">
+				<PNODE NodeType="profile" ProfileName="SmartEditor2D_Profile" />
+				<PNODE NodeType="field_variant" FieldName="LPiano" VariantName="Variant" />
+				<RP_INITIAL_VALUE />
+				<RP_SETFIELD_VALUE />
+				<RP_SETFIELD_FORCED />
+				<RP_SETOPTIONS />
+				<UI_INPUT_TYPE TypeForm="Text" />
+				<UI_INPUT_VALIDATION ValidationType="none" />
+				<UI_INPUT_SUPPORT />
+			</RELPROFILE>
+		</PROFILES_DATA>
+		<BOM_DATA />
+	</EXTERNAL_DATA>
+</PROCESS>

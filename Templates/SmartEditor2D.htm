@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="../JScript/RDWebForm.js"></script>
+		
+		<title>Smart Editor 2D</title>
+		
+		<style type="text/css">
+			body {
+				font-family: Monospace;
+				margin: 0px;
+				overflow: hidden;
+			}
+			
+			#SmartEditorCanvas {
+				position:absolute;
+				top:0px;
+				left: 20%;
+				height:100%;
+				width:80%;
+				background-color: #252850;
+			}
+			
+			#GUICanvas {
+				height:100%;
+				width:20%;
+				background-color: #042861;
+			}
+
+		</style>
+		
+		<script src="lib/three.min.js"></script>
+		<script src="lib/stats.min.js"></script>
+		<script src="lib/OrbitControls.js"></script>
+		<script src="lib/dat.gui.min.js"></script>
+		<script src="lib/BufferGeometryUtils.js"></script>
+		<script src="lib/three.text-texture.js"></script>
+		<script src="lib/three.text-sprite.js"></script>
+		<script src="lib/OBB.js"></script>
+		<script src="lib/SmartEditor2D.js"></script>
+		<script type="text/javascript">
+			function RDCustomBeforeInit(config) {
+			   //Executed before inserting data into input controls
+			}
+			function RDCustomInit(config) {
+			   //Executed after inserting data into input controls
+			   
+			   //Run main script
+			   mainSmartEditor2D();
+			   
+			}
+			function RDCustomBeforeSubmit() {
+			   //Executed before submitting to server the webform
+			   //Return false to refuse the submit, true to accept
+			   return true;
+			}
+		</script>
+
+	</head>
+	<body>
+		<form method="post" action=""  >
+			<!-- VARIABILI INPUT/OUTPUT DEL PROCESSO RULEDESIGNER -->
+			<input type="hidden" name="RDVAR_NumeroTreni" id="RDVAR_NumeroTreni"/>
+			<input type="hidden" name="RDVAR_LunghezzaTreni" id="RDVAR_LunghezzaTreni"/>
+			<input type="hidden" name="RDVAR_ProfonditaTreni" id="RDVAR_ProfonditaTreni"/>
+			<input type="hidden" name="RDVAR_HSpalle" id="RDVAR_HSpalle"/>
+			<input type="hidden" name="RDVAR_NumLivCampata" id="RDVAR_NumLivCampata"/>
+			<input type="hidden" name="RDVAR_CampatePerTreno" id="RDVAR_CampatePerTreno"/>
+			<input type="hidden" name="RDVAR_SpallaDoppia" id="RDVAR_SpallaDoppia"/>
+			<input type="hidden" name="RDVAR_UserData" id="RDVAR_UserData"/>
+			<input type="hidden" name="RDVAR_HPiano" id="RDVAR_HPiano"/>
+			<input type="hidden" name="RDVAR_LPiano" id="RDVAR_LPiano"/>
+		</form>
+		
+		<!-- DIV CHE CONTIENE LA GUI CUSTOM -->
+		<div id="GUICanvas"></div>
+		
+		<!-- DIV CHE CONTIENE LO SMART EDITOR -->
+		<div id="SmartEditorCanvas"></div>
+
+	</body>
+</html>
