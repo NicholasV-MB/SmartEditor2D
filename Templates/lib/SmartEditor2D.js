@@ -126,7 +126,7 @@
 			});
 		});
 		info_train = trains_folder.addFolder("Info Treno");
-		info_train.__ul.setAttribute("style", "display: none");		var utils_f = {			Accoppia: function(){				console.log(gui);				var object_gui = gui.__folders["Treni"].__folders["Tutti i Treni"].__controllers[0].object;				var treni = object_gui.Treni;				var lunghezza=object_gui.LunghezzaTreni;				var profondita=object_gui.ProfonditaTreni;				var altezzaSpalle=object_gui.AltezzaSpalle;				var campate=object_gui.CampatexTreno;				var doppiaspalla=object_gui.DoppiaSpalla;				var showNames=object_gui.showNames;				var livellixCampata = object_gui.LivellixCampata;				var toRemove = [];				scene.traverse(child =>{					if(child.name.startsWith(train_name) || child.name=="Helper"){						toRemove.push(child);					}				});				train_selected = undefined;				campata_selected = undefined;				if (info_train !== undefined){ info_train.__ul.setAttribute("style", "display: none")}				all_campate = [];				toRemove.forEach(el => {scene.remove(el);});				var interval_z = (height-(profondita*treni))/(1+Math.round(treni/2));				var interval_x = (width - lunghezza)/2;				var start_p = new THREE.Vector3(interval_x, altezzaSpalle, interval_z);				for(var t = 1; t<=treni; t++){					draw2Dtrain( 						String.fromCharCode(96+t).toUpperCase(), 						start_p, 						lunghezza, 						profondita, 						altezzaSpalle, 						campate, 						doppiaspalla, 						showNames, 						livellixCampata,						[]					);					if (( t % 2 ) == 1){						start_p.z += profondita+1;					} else {						start_p.z += interval_z+profondita;					}				}				get_trains();				console.log(all_trains);			}		}		all_trains_folder.add(utils_f, "Accoppia");
+		info_train.__ul.setAttribute("style", "display: none");		var utils_f = {			Accoppia: function(){				var object_gui = gui.__folders["Treni"].__folders["Tutti i Treni"].__controllers[0].object;				var treni = object_gui.Treni;				var lunghezza=object_gui.LunghezzaTreni;				var profondita=object_gui.ProfonditaTreni;				var altezzaSpalle=object_gui.AltezzaSpalle;				var campate=object_gui.CampatexTreno;				var doppiaspalla=object_gui.DoppiaSpalla;				var showNames=object_gui.showNames;				var livellixCampata = object_gui.LivellixCampata;				var toRemove = [];				scene.traverse(child =>{					if(child.name.startsWith(train_name) || child.name=="Helper"){						toRemove.push(child);					}				});				train_selected = undefined;				campata_selected = undefined;				if (info_train !== undefined){ info_train.__ul.setAttribute("style", "display: none")}				all_campate = [];				toRemove.forEach(el => {scene.remove(el);});				var interval_z = (height-(profondita*treni))/(1+Math.round(treni/2));				var interval_x = (width - lunghezza)/2;				var start_p = new THREE.Vector3(interval_x, altezzaSpalle, interval_z);				for(var t = 1; t<=treni; t++){					draw2Dtrain( 						String.fromCharCode(96+t).toUpperCase(), 						start_p, 						lunghezza, 						profondita, 						altezzaSpalle, 						campate, 						doppiaspalla, 						showNames, 						livellixCampata,						[]					);					if (( t % 2 ) == 1){						start_p.z += profondita+1;					} else {						start_p.z += interval_z+profondita;					}				}				get_trains();			}		}		all_trains_folder.add(utils_f, "Accoppia");
 		setGuiSize();
 	}
 
@@ -454,7 +454,7 @@
 	// Funzione che popola i controlli della folder contenente le informazioni del treno selezionato
 	function buildInfoTrain_folder(){
 		var to_remove = [];
-		info_train.__controllers.forEach(c => to_remove.push(c));		console.log(info_train);
+		info_train.__controllers.forEach(c => to_remove.push(c));
 		if(Object.keys(info_train.__folders).length>0){
 			var folder_to_remove = info_train.__folders["Info Campata"];
 			folder_to_remove.close();			if (folder_to_remove.domElement.parentNode.parentNode != null) {
@@ -520,7 +520,7 @@
 				train_selected.userData.Livelli, 				[]
 			);
 			restore_selection();
-			restore_rotation(old_rot);			console.log(this.__gui);			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Lunghezza"){					c.initialValue = campata_selected.userData.Lunghezza;					c.object.Lunghezza = campata_selected.userData.Lunghezza					c.updateDisplay();				}			}
+			restore_rotation(old_rot);			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Lunghezza"){					c.initialValue = campata_selected.userData.Lunghezza;					c.object.Lunghezza = campata_selected.userData.Lunghezza					c.updateDisplay();				}			}
 		});
 		
 		info_train.add(train_selected.userData, "profondita").name("Profondit&agrave").min(10).step(1).onChange(function(newVal){
@@ -543,7 +543,7 @@
 				train_selected.userData.Livelli, 				campate_data
 			);
 			restore_selection();
-			restore_rotation(old_rot);			this.initialValue = newVal;			console.log(this.__gui);			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Profondita"){					c.setValue(campata_selected.userData.Profondita);				}			}
+			restore_rotation(old_rot);			this.initialValue = newVal;			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Profondita"){					c.setValue(campata_selected.userData.Profondita);				}			}
 		});
 		
 		info_train.add(train_selected.userData, "Campate").min(1).step(1).onChange(function(newVal){
@@ -573,7 +573,7 @@
 		info_train.add(train_selected.userData, "Altezza").min(1000).step(100).onChange(function(newVal){
 			train_selected.children.forEach(child =>{
 				child.userData.Altezza=newVal;
-			});			console.log(this.__gui);			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Altezza"){					c.setValue(newVal);				}			}
+			});			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Altezza"){					c.setValue(newVal);				}			}
 			showTrainSelection();
 		});
 		
@@ -583,7 +583,7 @@
 				if(altezza==undefined){
 					altezza = train_selected.userData.Altezza;
 				}				child.userData.AltezzeLivelli = evaluate_altezze_livelli(altezza, newVal);
-			});			console.log(this.__gui);			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Livelli"){					c.setValue(newVal);				}			}
+			});			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Livelli"){					c.setValue(newVal);				}			}
 			showTrainSelection();
 		});
 		
@@ -900,7 +900,7 @@
 			train_selected.children.forEach(child =>{
 				child.boundingBox.center.x +=  delta_x;
 				child.boundingBox.center.y +=  1;
-				child.boundingBox.center.z +=  delta_z;				console.log(child.userData);				child.userData.start_p.x += delta_x;				child.userData.start_p.z += delta_z;
+				child.boundingBox.center.z +=  delta_z;				child.userData.start_p.x += delta_x;				child.userData.start_p.z += delta_z;
 				if(child.name !== campata_selected.name){
 					var geom = geom_from_obb(child.boundingBox);
 					var helper = new THREE.Line(geom, new THREE.LineBasicMaterial({color: 0x808080}));
