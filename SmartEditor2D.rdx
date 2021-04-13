@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PROCESS Id="RDK:0001" Name="Smart_Editor2D" HomePage="RDTemplateClean.htm" Expanded="True" Bookmarked="True">
-	<PROCESSPROPERTY CrUser="ruled [SRV-PLMTEST]" CrDate="2021-03-23T08:56:29" ModUser="nicholas.vittor [LAPT-IT07]" ModDate="2021-04-13T09:57:27" LanguageVersion="2011.1.1.0" />
+	<PROCESSPROPERTY CrUser="ruled [SRV-PLMTEST]" CrDate="2021-03-23T08:56:29" ModUser="nicholas.vittor [LAPT-IT07]" ModDate="2021-04-13T11:44:11" LanguageVersion="2011.1.1.0" />
 	<GROUP Id="RDK:0002" Name="Declarations" SubType="Declarations" Expanded="True">
 		<GROUP Id="RDK:0003" Name="Types" SubType="TypeSet" IncludeDate="0" Expanded="True">
 			<GROUP Id="RDK:16643" Name="SmartEditor2D" SubType="TypeSet" IncludeDate="0" Expanded="True">
@@ -113,7 +113,7 @@
 			</PAR>
 			<PAR Name="Recursive" />
 		</ACTION_CALL>
-		<SET_STRUCT Id="RDK:6539" VarRef="SmartEditor2D_Data" ClearAll="True">
+		<SET_STRUCT Id="RDK:6539" VarRef="SmartEditor2D_Data" ClearAll="True" Suppressed="True">
 			<PAR Name="NumeroTreni">
 				<EXP><![CDATA[$C$4]]></EXP>
 			</PAR>
@@ -145,7 +145,7 @@
 				<EXP><![CDATA[$C$150000]]></EXP>
 			</PAR>
 		</SET_STRUCT>
-		<SET_STRUCT Id="RDK:9818" VarRef="SmartEditor2D_Data" ClearAll="True" Suppressed="True">
+		<SET_STRUCT Id="RDK:9818" VarRef="SmartEditor2D_Data" ClearAll="True">
 			<PAR Name="NumeroTreni">
 				<EXP><![CDATA[$C$0]]></EXP>
 			</PAR>

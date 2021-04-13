@@ -52,7 +52,7 @@
 	Update();
 	
 	
-	// elimina gui se presente
+	// Elimina gui se presente
 	function clearGui() {
 		if ( gui ) gui.destroy();
 		gui = new dat.GUI( { autoPlace: true, width:300,  font:120 } );
@@ -62,7 +62,7 @@
 		
 	}
 	
-	// crea gui
+	// Crea gui
 	function buildGui() {
 		
 		clearGui();
@@ -79,7 +79,7 @@
 			drawFloor();
 			input_HPiano.value = newVal;
 		});
-		// controlli per la gestione dei treni
+		// Controlli per la gestione dei treni
 		trains_folder = gui.addFolder("Treni");
 		all_trains_folder = trains_folder.addFolder("Tutti i Treni");
 		all_trains_folder.add(settings, "Treni").min(0).step(1).name("Numero Treni").onChange(function(newVal){
@@ -98,7 +98,7 @@
 			input_HSpalle.value = newVal;
 			scene.traverse(child => {
 				if(child.name.startsWith(train_name)){
-					child.userData.Altezza = newVal;
+					child.userData.Altezza = newVal;					child.children.forEach(c=>{						if(c.name!="Helper"){							c.userData.Altezza=newVal;							c.userData.AltezzeLivelli = evaluate_altezze_livelli(c.userData.Altezza, c.userData.Livelli);						}					});
 				}
 			});
 		});
@@ -106,7 +106,7 @@
 			input_NumLivCampata.value = newVal;
 			scene.traverse(child => {
 				if(child.name.startsWith(train_name)){
-					child.userData.Livelli = newVal;
+					child.userData.Livelli = newVal;					child.children.forEach(c=>{						if(c.name!="Helper"){							c.userData.Livelli=newVal;							c.userData.AltezzeLivelli = evaluate_altezze_livelli(c.userData.Altezza, c.userData.Livelli);						}					});
 				}
 			});
 		});
@@ -126,7 +126,7 @@
 			});
 		});
 		info_train = trains_folder.addFolder("Info Treno");
-		info_train.__ul.setAttribute("style", "display: none");		var utils_f = {			Accoppia: function(){				var object_gui = gui.__folders["Treni"].__folders["Tutti i Treni"].__controllers[0].object;				var treni = object_gui.Treni;				var lunghezza=object_gui.LunghezzaTreni;				var profondita=object_gui.ProfonditaTreni;				var altezzaSpalle=object_gui.AltezzaSpalle;				var campate=object_gui.CampatexTreno;				var doppiaspalla=object_gui.DoppiaSpalla;				var showNames=object_gui.showNames;				var livellixCampata = object_gui.LivellixCampata;				var toRemove = [];				scene.traverse(child =>{					if(child.name.startsWith(train_name) || child.name=="Helper"){						toRemove.push(child);					}				});				train_selected = undefined;				campata_selected = undefined;				if (info_train !== undefined){ info_train.__ul.setAttribute("style", "display: none")}				all_campate = [];				toRemove.forEach(el => {scene.remove(el);});				var interval_z = (height-(profondita*treni))/(1+Math.round(treni/2));				var interval_x = (width - lunghezza)/2;				var start_p = new THREE.Vector3(interval_x, altezzaSpalle, interval_z);				for(var t = 1; t<=treni; t++){					draw2Dtrain( 						String.fromCharCode(96+t).toUpperCase(), 						start_p, 						lunghezza, 						profondita, 						altezzaSpalle, 						campate, 						doppiaspalla, 						showNames, 						livellixCampata,						[]					);					if (( t % 2 ) == 1){						start_p.z += profondita+1;					} else {						start_p.z += interval_z+profondita;					}				}				get_trains();			}		}		all_trains_folder.add(utils_f, "Accoppia");
+		info_train.__ul.setAttribute("style", "display: none");		var utils_f = {			Accoppia: function(){				var object_gui = gui.__folders["Treni"].__folders["Tutti i Treni"].__controllers[0].object;				var treni = object_gui.Treni;				var lunghezza=object_gui.LunghezzaTreni;				var profondita=object_gui.ProfonditaTreni;				var altezzaSpalle=object_gui.AltezzaSpalle;				var campate=object_gui.CampatexTreno;				var doppiaspalla=object_gui.DoppiaSpalla;				var showNames=object_gui.showNames;				var livellixCampata = object_gui.LivellixCampata;				var toRemove = [];				scene.traverse(child =>{					if(child.name.startsWith(train_name) || child.name=="Helper"){						toRemove.push(child);					}				});				train_selected = undefined;				campata_selected = undefined;				if (info_train !== undefined){ info_train.__ul.setAttribute("style", "display: none")}				all_campate = [];				toRemove.forEach(el => {scene.remove(el);});				var interval_z = (height-(profondita*treni))/(1+Math.round(treni/2));				var interval_x = (width - lunghezza)/2;				var start_p = new THREE.Vector3(interval_x, altezzaSpalle, interval_z);				var mod = Math.floor(treni/27);				for(var t = 1; t<=treni; t++){					var remainder = (t-1) % 26;					var t_name = String.fromCharCode(97+remainder).toUpperCase();					if (mod>0){						var idx_name = Math.floor((t-1)/26)+1;						t_name += idx_name;					}					draw2Dtrain( 						t_name, 						start_p, 						lunghezza, 						profondita, 						altezzaSpalle, 						campate, 						doppiaspalla, 						showNames, 						livellixCampata,						[]					);					if (( t % 2 ) == 1){						start_p.z += profondita+1;					} else {						start_p.z += interval_z+profondita;					}				}				get_trains();			}		}		all_trains_folder.add(utils_f, "Accoppia");
 		setGuiSize();
 	}
 
@@ -151,7 +151,7 @@
 		GUICanvas.innerWidth = 0.2*window.innerWidth;
 		GUICanvas.innerHeight = window.innerHeight;	
 		gui.width = GUICanvas.innerWidth-20;
-	}		// TODO ELIMINA QUANDO USI RDX	window.addEventListener('load', (event) => {	  onResize();	});
+	}	
 
 	// Funzione che genera la scena all'apertura della pagina web
 	function Start() {
@@ -198,16 +198,7 @@
 		controls.update();
 		stats.update();
 		evaluate_userData();
-		// Setta la grandezza del font della scritta all'interno delle campate in base allo zoom (TODO da migliorare)
-		if( all_campate.length>0 ){
-			all_campate.forEach( camp =>{
-				camp.children.forEach(obj =>{
-					if(obj.name=="Testo") {	
-						obj.fontSize = 35/camera.zoom;
-					}
-				});
-			});
-		}
+		// Setta la grandezza della sprite con la scritta all'interno delle campate in base allo zoom		var scaleFactor = 10;		var min_scale = Infinity;		if( all_campate.length>0 ){			all_campate.forEach( camp =>{				camp.children.forEach(obj =>{					if(obj.name=="Testo") {							var scaleVector = new THREE.Vector3();						var scale = scaleVector.subVectors(camp.position, camera.position).length() / scaleFactor;						if (scale<min_scale){							min_scale = scale;						}					}				});			});			all_campate.forEach( camp =>{				camp.children.forEach(obj =>{					if(obj.name=="Testo") {							obj.scale.set(min_scale, min_scale, 1);						obj.position.set(0, 0, 4000);					}				});			});		}
 		Render();
 		requestAnimationFrame( Update );
 	}
@@ -234,9 +225,7 @@
 	// Funzione che rigenera la scena dal valore di "input_UserData"
 	function restoreScene(){
 		if (input_UserData.value.length>0){
-			var str_val = input_UserData.value;
-			//var json_data = JSON.parse(str_val);
-			//var trains_data =  json_data.UserData;			var trains_data = JSON.parse(str_val);			trains_data.forEach(t_data =>{
+			var str_val = input_UserData.value;			var trains_data = JSON.parse(str_val);			trains_data.forEach(t_data =>{
 				var id = t_data.userData.id;
 				var start_p = t_data.userData.start_p;
 				var lunghezza = t_data.userData.Lunghezza;
@@ -294,11 +283,6 @@
 		all_trains.forEach(t=>{
 			t.children.forEach(child => {
 				if (child.name !="Helper") { 
-					/*if(Object.keys(child.userData).length==0){
-						var altezza=t.userData.Altezza;
-						var livelli = t.userData.Livelli;
-						child.userData.AltezzeLivelli = evaluate_altezze_livelli(altezza, livelli);
-					}*/
 					all_campate.push(child)
 				}
 			});
@@ -319,10 +303,10 @@
 		all_campate = [];
 		toRemove.forEach(el => {scene.remove(el);});
 		var interval_z = height/(treni+1);
-		var interval_x = (width - lunghezza)/2;
-		for(var t = 1; t<=treni; t++){
+		var interval_x = (width - lunghezza)/2;		var mod = Math.floor(treni/27);
+		for(var t = 1; t<=treni; t++){			var remainder = (t-1) % 26;			var t_name = String.fromCharCode(97+remainder).toUpperCase();			if (mod>0){				var idx_name = Math.floor((t-1)/26)+1;				t_name += idx_name;			}
 			var start_p = new THREE.Vector3(interval_x, altezza, t*interval_z-(profondita/2));
-			draw2Dtrain( 				String.fromCharCode(96+t).toUpperCase(), 				start_p, 				lunghezza, 				profondita, 				altezza, 				campate, 				doppiaspalla, 				showNames, 				livellixCampata,				[]			);
+			draw2Dtrain( 				t_name, 				start_p, 				lunghezza, 				profondita, 				altezza, 				campate, 				doppiaspalla, 				showNames, 				livellixCampata,				[]			);
 		}
 		get_trains();
 	}
@@ -366,17 +350,7 @@
 	}
 
 	// Crea testo
-	function createSprite(name){
-		var sprite = new THREE.TextSprite({
-			text:  name,
-			fontFamily: 'Arial, Helvetica, sans-serif',
-			fontSize: 100, //+ (10/camera2D.zoom),
-			color: '#000000',
-			
-		});
-		sprite.name="Testo";
-		sprite.position.setY(camera.position.y-10000);
-		return sprite;
+	function createSprite(name){		var canvas = document.createElement('canvas');		canvas.width = 256;		canvas.height = 256;		var ctx = canvas.getContext("2d");		ctx.font = "44pt Arial";		ctx.fillStyle = "Black";		ctx.textAlign = "center";		ctx.fillText(name, 128, 44);		var tex = new THREE.Texture(canvas);		tex.needsUpdate = true;		var spriteMat = new THREE.SpriteMaterial({map: tex});		var sprite = new THREE.Sprite(spriteMat);		sprite.name = "Testo";		sprite.renderOrder=3;		return sprite;
 	}
 
 	// Genera una geometria a partire da un OBB (Oriented Bounding Box https://threejs.org/docs/#examples/en/math/OBB )
@@ -584,11 +558,10 @@
 			showTrainSelection();
 		});
 		
-		info_train.add(train_selected.userData, "Rotazione").min(0).max(360).step(1).onChange(function(newVal){
-			var alpha = (newVal-this.initialValue)*Math.PI/180;
+		info_train.add(train_selected.userData, "Rotazione").min(0).max(360).step(1).onChange(function(newVal){			var alpha = (newVal-this.initialValue)*Math.PI/180;
 			var alpha1 = newVal*Math.PI/180;
 			this.initialValue = newVal;
-			/*if (campata_selected !== undefined){
+			/* Parte commentanta è rotazione con pivot su centro campata => più difficile da gestire 			if (campata_selected !== undefined){
 				var xc = campata_selected.boundingBox.center.x;
 				var zc = campata_selected.boundingBox.center.z;
 			} else {
@@ -616,7 +589,7 @@
 					child.position.x = (x-xc)*Math.cos(-alpha)-(z-zc)*Math.sin(-alpha) + xc;
 					child.position.z = (x-xc)*Math.sin(-alpha)+(z-zc)*Math.cos(-alpha) + zc;
 					child.boundingBox.center.x = child.position.x;
-					child.boundingBox.center.z = child.position.z;					//child.userData.start_p.x += delta_x;					//child.userData.start_p.z += delta_z;
+					child.boundingBox.center.z = child.position.z;
 					child.children.forEach(c=>{
 						if(c.name!="Testo"){
 							c.rotation.y += alpha;
@@ -624,7 +597,7 @@
 					});
 				}
 			});
-			restore_selection();
+			restore_selection();			train_selected.userData.Rotazione = newVal;
 		});
 		
 		info_train.add(train_selected.userData, "DoppiaSpalla").name("Doppia Spalla").onChange(function(newVal){
@@ -670,7 +643,7 @@
 				c.__max = newVal;
 				c.updateDisplay();
 			});
-		});		var max_l = campata_selected.userData["Lunghezza"];		var id_c = campata_selected.name.split("-")[1];		var last = train_selected.children.length/2 == id_c;		var value_to_add = -600;		if(last){			value_to_add += train_selected.children[id_c-2].userData.Lunghezza;		} else {			value_to_add += train_selected.children[id_c].userData.Lunghezza;		}		max_l += value_to_add;		info_campata.add(campata_selected.userData, "Lunghezza").min(500).max(max_l).step(10).onChange(function(newVal){					var old_length = this.initialValue;				var delta_l = newVal-old_length;			var old_rot = train_selected.userData.Rotazione;			restore_rotation(-old_rot);			train_selected.geometry.computeBoundingSphere();			train_selected.userData.start_p = train_selected.geometry.boundingSphere.center;			train_selected.userData.start_p.x -= train_selected.userData.Lunghezza/2;			train_selected.userData.start_p.z -= train_selected.userData.profondita/2;			campata_selected.userData.Lunghezza = newVal;			campate_data = evaluate_campate_data(delta_l, 0);			removeElFromScene(train_selected.name);			draw2Dtrain(				train_selected.userData.id, 				train_selected.userData.start_p,				train_selected.userData.Lunghezza,				train_selected.userData.profondita, 									train_selected.userData.Altezza, 				train_selected.userData.Campate, 				train_selected.userData.DoppiaSpalla, 				train_selected.userData.showNames, 				train_selected.userData.Livelli, 				campate_data			);			restore_selection();			restore_rotation(old_rot);			this.initialValue = newVal;					});		var info_c_prof = info_campata.add(campata_selected.userData, "Profondita").name("Profondit&agrave").min(5).step(100);		info_c_prof.__input.disabled=true;		info_c_prof.__input.style.opacity=0.5;
+		});		var max_l = campata_selected.userData["Lunghezza"];		var id_c = campata_selected.name.split("-")[1];		var last = train_selected.children.length/2 == id_c;		var value_to_add = -600;		if(last){			value_to_add += train_selected.children[id_c-2].userData.Lunghezza;		} else {			value_to_add += train_selected.children[id_c].userData.Lunghezza;		}		max_l += value_to_add;		info_campata.add(campata_selected.userData, "Lunghezza").min(500).max(max_l).step(10).onChange(function(newVal){					var old_length = this.initialValue;				var delta_l = newVal-old_length;			var old_rot = train_selected.userData.Rotazione;			restore_rotation(-old_rot);			train_selected.geometry.computeBoundingSphere();			train_selected.userData.start_p = train_selected.geometry.boundingSphere.center;			train_selected.userData.start_p.x -= train_selected.userData.Lunghezza/2;			train_selected.userData.start_p.z -= train_selected.userData.profondita/2;			campata_selected.userData.Lunghezza = newVal;			campate_data = evaluate_campate_data(delta_l, 0);			removeElFromScene(train_selected.name);			draw2Dtrain(				train_selected.userData.id, 				train_selected.userData.start_p,				train_selected.userData.Lunghezza,				train_selected.userData.profondita, 									train_selected.userData.Altezza, 				train_selected.userData.Campate, 				train_selected.userData.DoppiaSpalla, 				train_selected.userData.showNames, 				train_selected.userData.Livelli, 				campate_data			);			restore_selection();			restore_rotation(old_rot);			train_selected.userData.Rotazione=old_rot;			this.initialValue = newVal;					});		var info_c_prof = info_campata.add(campata_selected.userData, "Profondita").name("Profondit&agrave").min(5).step(100);		info_c_prof.__input.disabled=true;		info_c_prof.__input.style.opacity=0.5;
 		info_campata.add(campata_selected.userData, "Livelli").min(1).step(1).onChange(function(newVal){
 			var to_remove = [];
 			liv_folder.__controllers.forEach(c =>{
@@ -731,7 +704,7 @@
 	function restore_rotation(val){
 		var alpha = val*Math.PI/180;
 		train_selected.userData.Rotazione = val;
-		/*if (campata_selected !== undefined){
+		/* Parte commentanta è rotazione con pivot su centro campata => più difficile da gestire 		if (campata_selected !== undefined){
 			var xc = campata_selected.boundingBox.center.x;
 			var zc = campata_selected.boundingBox.center.z;
 		} else {
@@ -756,7 +729,7 @@
 				var z = child.position.z;
 				child.boundingBox.rotation = new THREE.Matrix3().setFromMatrix4(new THREE.Matrix4().makeRotationY(alpha));
 				child.position.x = (x-xc)*Math.cos(-alpha)-(z-zc)*Math.sin(-alpha)+xc;
-				child.position.z = (x-xc)*Math.sin(-alpha)+(z-zc)*Math.cos(-alpha)+zc;				//child.userData.start_p.x += delta_x;				//child.userData.start_p.z += delta_z;
+				child.position.z = (x-xc)*Math.sin(-alpha)+(z-zc)*Math.cos(-alpha)+zc;
 				child.boundingBox.center.x = child.position.x;
 				child.boundingBox.center.z = child.position.z;
 				child.children.forEach(c=>{
@@ -862,11 +835,6 @@
 				dragging_train = true;
 				controls.enabled = false;
 				train_selected = campata_selected.parent;
-				/*var altezza = campata_selected.userData.Altezza;
-				if(altezza == undefined){altezza=train_selected.userData.Altezza}
-				var livelli = campata_selected.userData.Livelli;
-				if(livelli == undefined){livelli=train_selected.userData.Livelli}				var profondita = campata_selected.userData.Profondita;				var lunghezza = campata_selected.userData.Lunghezza;
-				campata_selected.userData.AltezzeLivelli = evaluate_altezze_livelli(altezza, livelli);*/
 				info_train.__ul.setAttribute("style", "display: ");
 				buildInfoTrain_folder();
 				showTrainSelection();
@@ -932,7 +900,7 @@
 			}
 			duplicating_train=false;
 			var old_rot = train_selected.userData.Rotazione;
-			var old_campata_selected = campata_selected;
+			var old_campata_selected = campata_selected;			var campate_data = evaluate_campate_data(0, 0);			var d_x = start_pos.x-campate_data[0].start_p.x;			var d_z = start_pos.z-campate_data[0].start_p.z;			campate_data.forEach(c=>{				c.start_p.x += d_x;				c.start_p.z += d_z;			});
 			draw2Dtrain(
 				String.fromCharCode(97+settings.Treni).toUpperCase(), 
 				start_pos,
@@ -942,7 +910,7 @@
 				train_selected.userData.Campate, 
 				train_selected.userData.DoppiaSpalla, 
 				train_selected.userData.showNames, 
-				train_selected.userData.Livelli, 				{} // TODO campate_data
+				train_selected.userData.Livelli, 				campate_data
 			);
 			get_trains();
 			var new_c_name =  String.fromCharCode(97+settings.Treni).toUpperCase() +"-"+ campata_selected.name.substring(campata_selected.name.indexOf("-") + 1);
