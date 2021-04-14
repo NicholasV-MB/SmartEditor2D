@@ -555,7 +555,7 @@
 			train_selected.children.forEach(child =>{				if(child.name!="Helper"){
 					var altezza = child.userData.Altezza;					child.userData.Livelli = newVal;					child.userData.AltezzeLivelli = evaluate_altezze_livelli(altezza, newVal);				}
 			});			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Livelli"){					c.setValue(newVal);				}			}
-			showTrainSelection();			train_selected.userData.Livelli = newValue;
+			showTrainSelection();			train_selected.userData.Livelli = newVal;
 		});
 		
 		info_train.add(train_selected.userData, "Rotazione").min(0).max(360).step(1).onChange(function(newVal){			var alpha = (newVal-this.initialValue)*Math.PI/180;
