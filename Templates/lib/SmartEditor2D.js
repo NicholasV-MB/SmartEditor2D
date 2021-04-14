@@ -37,7 +37,7 @@
 	var trains_folder, all_trains_folder, draw_trains_mode, trains, train_portapallet, info_train, train_selected, campata_selected, dragging_train;
 	var all_campate = [];
 	var all_trains = [];
-	var duplication_mode, liv_folder; 
+	var duplication_mode, liv_folder, info_campata; 
 	var duplicating_train = false;
 	var floor_name = "Floor";
 	var train_name = "Treno";
@@ -497,7 +497,7 @@
 			restore_rotation(old_rot);			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Lunghezza"){					c.initialValue = campata_selected.userData.Lunghezza;					c.object.Lunghezza = campata_selected.userData.Lunghezza					c.updateDisplay();				}			}
 		});
 		
-		info_train.add(train_selected.userData, "profondita").name("Profondit&agrave").min(10).step(1).onChange(function(newVal){
+		info_train.add(train_selected.userData, "profondita").name("Profondit&agrave").min(5).step(100).onChange(function(newVal){
 			var old_rot = train_selected.userData.Rotazione;
 			restore_rotation(-old_rot);
 			train_selected.geometry.computeBoundingSphere();
@@ -517,7 +517,7 @@
 				train_selected.userData.Livelli, 				campate_data
 			);
 			restore_selection();
-			restore_rotation(old_rot);			this.initialValue = newVal;			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Profondita"){					c.setValue(campata_selected.userData.Profondita);				}			}
+			restore_rotation(old_rot);			this.initialValue = newVal;			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Profondita"){					c.setValue(campata_selected.userData.Profondita);					c.updateDisplay();				}			}
 		});
 		
 		info_train.add(train_selected.userData, "Campate").min(1).step(1).onChange(function(newVal){
@@ -538,24 +538,24 @@
 				newVal, 
 				train_selected.userData.DoppiaSpalla, 
 				train_selected.userData.showNames, 
-				train_selected.userData.Livelli, 				[] // cambiare numero di campata mi resetta le info campata
+				train_selected.userData.Livelli, 				[] // cambiare numero di campate mi resetta le info campata
 			);
 			restore_selection();			
-			restore_rotation(old_rot);
+			restore_rotation(old_rot);						if(campata_selected!=undefined){				buildInfoCampataFolder();			}
 		});
 		
 		info_train.add(train_selected.userData, "Altezza").min(1000).step(100).onChange(function(newVal){
 			train_selected.children.forEach(child =>{
 				child.userData.Altezza=newVal;
 			});			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Altezza"){					c.setValue(newVal);				}			}
-			showTrainSelection();
+			showTrainSelection();			train_selected.userData.Altezza = newValue;
 		});
 		
 		info_train.add(train_selected.userData, "Livelli").min(1).step(1).onChange(function(newVal){
 			train_selected.children.forEach(child =>{				if(child.name!="Helper"){
 					var altezza = child.userData.Altezza;					child.userData.Livelli = newVal;					child.userData.AltezzeLivelli = evaluate_altezze_livelli(altezza, newVal);				}
 			});			for (c of this.__gui.__folders["Info Campata"].__controllers){				if (c.property=="Livelli"){					c.setValue(newVal);				}			}
-			showTrainSelection();
+			showTrainSelection();			train_selected.userData.Livelli = newValue;
 		});
 		
 		info_train.add(train_selected.userData, "Rotazione").min(0).max(360).step(1).onChange(function(newVal){			var alpha = (newVal-this.initialValue)*Math.PI/180;
@@ -600,27 +600,27 @@
 			restore_selection();			train_selected.userData.Rotazione = newVal;
 		});
 		
-		info_train.add(train_selected.userData, "DoppiaSpalla").name("Doppia Spalla").onChange(function(newVal){
-			var old_rot = train_selected.userData.Rotazione;
-			restore_rotation(-old_rot);
-			train_selected.geometry.computeBoundingSphere();
-			train_selected.userData.start_p = train_selected.geometry.boundingSphere.center;
-			train_selected.userData.start_p.x -= train_selected.userData.Lunghezza/2;
-			train_selected.userData.start_p.z -= train_selected.userData.profondita/2;
-			removeElFromScene(train_selected.name);			campate_data = evaluate_campate_data(0, 0);
-			draw2Dtrain(
-				train_selected.userData.id, 
-				train_selected.userData.start_p,
-				train_selected.userData.Lunghezza,
-				train_selected.userData.profondita, 					
-				train_selected.userData.Altezza, 
-				train_selected.userData.Campate, 
-				newVal, 
-				train_selected.userData.showNames, 
-				train_selected.userData.Livelli, 				campate_data
-			);
-			restore_selection();
-			restore_rotation(old_rot);
+		info_train.add(train_selected.userData, "DoppiaSpalla").name("Doppia Spalla").onChange(function(newVal){			var n_c = 0;			train_selected.children.forEach(c=>{				if(c.name!="Helper"){					n_c += 1;				}			});			if(n_c>1){
+				var old_rot = train_selected.userData.Rotazione;
+				restore_rotation(-old_rot);
+				train_selected.geometry.computeBoundingSphere();
+				train_selected.userData.start_p = train_selected.geometry.boundingSphere.center;
+				train_selected.userData.start_p.x -= train_selected.userData.Lunghezza/2;
+				train_selected.userData.start_p.z -= train_selected.userData.profondita/2;
+				removeElFromScene(train_selected.name);				campate_data = evaluate_campate_data(0, 0);
+				draw2Dtrain(
+					train_selected.userData.id, 
+					train_selected.userData.start_p,
+					train_selected.userData.Lunghezza,
+					train_selected.userData.profondita, 					
+					train_selected.userData.Altezza, 
+					train_selected.userData.Campate, 
+					newVal, 
+					train_selected.userData.showNames, 
+					train_selected.userData.Livelli, 					campate_data
+				);
+				restore_selection();
+				restore_rotation(old_rot);			}			train_selected.userData.DoppiaSpalla = newVal;
 		});
 		
 		info_train.add(train_selected.userData, "showNames").name("Mostra Nomi").onChange(function(newVal){
@@ -636,14 +636,12 @@
 		});
 		info_train.add(utils_f, "Duplica");
 		info_train.add(utils_f, "Delete").name("Elimina Treno");
-		
-		var info_campata = info_train.addFolder("Info Campata");
-		info_campata.add(campata_selected.userData, "Altezza").min(1000).step(10).onChange(function(newVal){
-			liv_folder.__controllers.forEach(c =>{
-				c.__max = newVal;
-				c.updateDisplay();
-			});
-		});		var max_l = campata_selected.userData["Lunghezza"];		var id_c = campata_selected.name.split("-")[1];		var last = train_selected.children.length/2 == id_c;		var value_to_add = -600;		if(last){			value_to_add += train_selected.children[id_c-2].userData.Lunghezza;		} else {			value_to_add += train_selected.children[id_c].userData.Lunghezza;		}		max_l += value_to_add;		info_campata.add(campata_selected.userData, "Lunghezza").min(500).max(max_l).step(10).onChange(function(newVal){					var old_length = this.initialValue;				var delta_l = newVal-old_length;			var old_rot = train_selected.userData.Rotazione;			restore_rotation(-old_rot);			train_selected.geometry.computeBoundingSphere();			train_selected.userData.start_p = train_selected.geometry.boundingSphere.center;			train_selected.userData.start_p.x -= train_selected.userData.Lunghezza/2;			train_selected.userData.start_p.z -= train_selected.userData.profondita/2;			campata_selected.userData.Lunghezza = newVal;			campate_data = evaluate_campate_data(delta_l, 0);			removeElFromScene(train_selected.name);			draw2Dtrain(				train_selected.userData.id, 				train_selected.userData.start_p,				train_selected.userData.Lunghezza,				train_selected.userData.profondita, 									train_selected.userData.Altezza, 				train_selected.userData.Campate, 				train_selected.userData.DoppiaSpalla, 				train_selected.userData.showNames, 				train_selected.userData.Livelli, 				campate_data			);			restore_selection();			restore_rotation(old_rot);			train_selected.userData.Rotazione=old_rot;			this.initialValue = newVal;					});		var info_c_prof = info_campata.add(campata_selected.userData, "Profondita").name("Profondit&agrave").min(5).step(100);		info_c_prof.__input.disabled=true;		info_c_prof.__input.style.opacity=0.5;
+				buildInfoCampataFolder();	}		// Fuzione che costruisce la folder "Info Campata"		function buildInfoCampataFolder(){		if (Object.keys(info_train.__folders).length>0){			info_train.__ul.removeChild(info_campata.domElement.parentNode);			delete gui.__folders["Treni"].__folders["Info Treno"].__folders["Info Campata"];		}
+		info_campata = info_train.addFolder("Info Campata");
+		info_campata.add(campata_selected.userData, "Altezza").min(1000).step(10).onChange(function(newVal){			campata_selected.userData.Altezza = newVal;			campata_selected.userData.AltezzeLivelli = evaluate_altezze_livelli(newVal, campata_selected.userData.Livelli);			var to_remove = [];
+			liv_folder.__controllers.forEach(c =>{				to_remove.push(c);
+			});			to_remove.forEach(c=>{				liv_folder.remove(c);			});			editLivFolder();
+		});		var max_l = campata_selected.userData["Lunghezza"];		var id_c = campata_selected.name.split("-")[1];				var n_c = 0;				train_selected.children.forEach(c=>{			if(c.name!="Helper"){				n_c += 1;			}		});		var last = (n_c==id_c);		var value_to_add = -600;		if(last){			if (n_c==1){				value_to_add += 600;			} else {				value_to_add += train_selected.children[id_c-2].userData.Lunghezza;			}		} else {			value_to_add += train_selected.children[id_c].userData.Lunghezza;		}		max_l += value_to_add;		var info_c_lung = info_campata.add(campata_selected.userData, "Lunghezza").min(500).max(max_l).step(10).onChange(function(newVal){				if (n_c>1){				var old_length = this.initialValue;					var delta_l = newVal-old_length;				var old_rot = train_selected.userData.Rotazione;				restore_rotation(-old_rot);				train_selected.geometry.computeBoundingSphere();				train_selected.userData.start_p = train_selected.geometry.boundingSphere.center;				train_selected.userData.start_p.x -= train_selected.userData.Lunghezza/2;				train_selected.userData.start_p.z -= train_selected.userData.profondita/2;				campata_selected.userData.Lunghezza = newVal;				campate_data = evaluate_campate_data(delta_l, 0);				removeElFromScene(train_selected.name);				draw2Dtrain(					train_selected.userData.id, 					train_selected.userData.start_p,					train_selected.userData.Lunghezza,					train_selected.userData.profondita, 										train_selected.userData.Altezza, 					train_selected.userData.Campate, 					train_selected.userData.DoppiaSpalla, 					train_selected.userData.showNames, 					train_selected.userData.Livelli, 					campate_data				);				restore_selection();				restore_rotation(old_rot);				train_selected.userData.Rotazione=old_rot;				this.initialValue = newVal;			} 		});		if (n_c==1){			info_c_lung.domElement.style.pointerEvents = "none"			info_c_lung.domElement.style.opacity=0.5;		}		var info_c_prof = info_campata.add(campata_selected.userData, "Profondita").name("Profondit&agrave").min(5).step(100);		info_c_prof.__input.disabled=true;		info_c_prof.__input.style.opacity=0.5;
 		info_campata.add(campata_selected.userData, "Livelli").min(1).step(1).onChange(function(newVal){
 			var to_remove = [];
 			liv_folder.__controllers.forEach(c =>{
@@ -651,7 +649,7 @@
 			});
 			to_remove.forEach(c =>{
 				liv_folder.remove(c);
-			});			altezza = campata_selected.userData.Altezza;			if(altezza==undefined){				altezza = train_selected.userData.Altezza;			}
+			});			altezza = campata_selected.userData.Altezza;			if(altezza==undefined){				altezza = train_selected.userData.Altezza;			}			campata_selected.userData.Livelli = newVal;
 			campata_selected.userData.AltezzeLivelli = evaluate_altezze_livelli(altezza, newVal);
 			editLivFolder();
 		});
@@ -661,7 +659,7 @@
 		info_train.open();
 		all_trains_folder.close();
 		setGuiSize();
-	}	// Funzione per valorizzare gli userdate delle campate del treno selezionato	function evaluate_campate_data(delta_l, delta_p){		var campate_data = [];		var id_campata_selected = parseInt(campata_selected.name.split("-")[1]);		var last_c = id_campata_selected == (train_selected.children.length/2);		train_selected.children.forEach(c =>{			if(c.name!="Helper") {				c.userData.Profondita += delta_p;				c.userData.start_p.z -= (delta_p/2);				campate_data.push(c.userData);			}		});		if(last_c){			campate_data[id_campata_selected-2].Lunghezza -= delta_l;			campate_data[id_campata_selected-1].start_p.x -= delta_l;		} else {			campate_data[id_campata_selected].Lunghezza -= delta_l;			campate_data[id_campata_selected].start_p.x += delta_l;		}		return campate_data;	}
+	}		function blockEvent(event) {	  event.stopPropagation();	}	// Funzione per valorizzare gli userdate delle campate del treno selezionato	function evaluate_campate_data(delta_l, delta_p){		var campate_data = [];		if (campata_selected!=undefined){			var id_campata_selected = parseInt(campata_selected.name.split("-")[1]);			var last_c = id_campata_selected == (train_selected.children.length/2);			train_selected.children.forEach(c =>{				if(c.name!="Helper") {					c.userData.Profondita += delta_p;					c.userData.start_p.z -= (delta_p/2);					campate_data.push(c.userData);				}			});			if(last_c){				campate_data[id_campata_selected-2].Lunghezza -= delta_l;				campate_data[id_campata_selected-1].start_p.x -= delta_l;			} else {				campate_data[id_campata_selected].Lunghezza -= delta_l;				campate_data[id_campata_selected].start_p.x += delta_l;			}		}		return campate_data;	}
 	
 	// Funzione che popola la folder dei livelli
 	function editLivFolder(){
@@ -682,7 +680,7 @@
 				} else if (parseInt(this.property) == campata_selected.userData.Livelli && campata_selected.userData.Livelli >1 ){
 					liv_folder.__controllers[parseInt(this.property)-2].__max = newVal; 
 				} else {
-					liv_folder.__controllers[this.property].__min = newVal; 
+					liv_folder.__controllers[this.property].__min = newVal;
 					liv_folder.__controllers[parseInt(this.property)-2].__max = newVal; 
 				}
 			});
